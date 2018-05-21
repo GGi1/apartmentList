@@ -15,7 +15,7 @@ class ApartmentsController < ApplicationController
   end
 
 
-  def cat_params
+  def apartment_params
         params.require(:apartment).permit(:street1, :zip, :manager)
   end
 
