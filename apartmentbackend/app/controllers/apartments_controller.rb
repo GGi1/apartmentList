@@ -1,9 +1,12 @@
 class ApartmentsController < ApplicationController
 
+# before_action :authenticate_user
+
   def index
     apartments = Apartment.all
     render json: apartments
   end
+
 
   def create
     apartment = Apartment.create(apartment_params)
@@ -16,7 +19,7 @@ class ApartmentsController < ApplicationController
 
 
   def apartment_params
-        params.require(:apartment).permit(:street1, :zip, :manager)
+        params.require(:apartment).permit(:street1, :street2, :city, :state, :zip, :country, :manager, :phone, :email, :hours)
   end
 
 end

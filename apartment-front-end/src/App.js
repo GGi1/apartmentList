@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Header from './components/Header'
+
 import './App.css';
 import Apartments from './pages/Apartments'
 import NewListing from './pages/NewListing'
+import Login from './components/Login'
 
 const BASE = 'http://localhost:3000'
 
@@ -33,6 +34,7 @@ componentWillMount() {
 
 createListing(apartment) {
   return fetch(BASE + '/apartments', {
+
         body: JSON.stringify(apartment),  // <- we need to stringify the json for fetch
         headers: {  // <- We specify that we're sending JSON, and expect JSON back
             'Content-Type': 'application/json'
@@ -55,12 +57,12 @@ createListing(apartment) {
   render() {
     return (
       <div className="App">
-      <Header />
       <Router>
         <Switch>
           <Route exact path ="/apartments" render={(props) => <Apartments
           apartments={this.state.apartments}/>} />
-          <Route exact path ="/apartments/new" render={(props) => <NewListing onSubmit ={this.createListing.bind(this)}/>}/>
+          <Route exact path ="/apartments/new" render={(props) => <NewListing makeListing={this.createListing.bind(this)}/>}/>
+          <Route exact path ="/login" render={(props) => <Login makeListing={this.createListing.bind(this)}/>}/>
 
         </Switch>
       </Router>
