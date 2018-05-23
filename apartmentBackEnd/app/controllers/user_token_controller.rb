@@ -1,34 +1,45 @@
-class UserTokenController < Knock::AuthTokenController
-
-  def index
-    users = User.all
-    render json: users
-  end
-  #
-  #
-  # def show
-  #   user = User.find params[:id]
-  #   render json: user
-  # end
+class UserTokenController < ApplicationController
+  before_action :authenticate
 
   def create
-    user = User.new(user_params)
-    if user.save
-      token = Knock::AuthToken.new(payload: { sub: user.id }).token
-      payload = {
-        user: user,
-        jwt: token
-      }
-      render json: payload, status: 201
-    else
-      render json: {errors: user.errors}, status: 422
-    end
+    render json: auth_token, status: :created
   end
 
   private
-  def user_params
-    params.require(:auth).permit(:email, :name, :password, :password_confirmation)
-  end
-end
 
+  def authenticate
+
+    unless entity.present? && entity.authenticate(auth_params[:password])
+      raise Knock.not_found_exception_class
+    end
+  end
+
+  def auth_token
+    if entity.respond_to? :to_token_payload
+      Knock::AuthToken.new payload: entity.to_token_payload
+    else
+      Knock::AuthToken.new payload: { sub: entity.id }
+    end
+  end
+
+  def entity
+    @entity ||=
+      if entity_class.respond_to? :from_token_request
+        entity_class.from_token_request request
+      else
+        entity_class.find_by email: auth_params[:email]
+      end
+  end
+
+  def entity_class
+    entity_name.constantize
+  end
+
+  def entity_name
+    self.class.name.scan(/\w+/).last.split('TokenController').first
+  end
+
+  def auth_params
+    params.require(:auth).permit :email, :password
+  end
 end

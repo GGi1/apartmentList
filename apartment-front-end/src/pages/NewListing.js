@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import withAuth from '../components/withAuth'
 
-
-
+const BASE = 'http://localhost:3000'
 
 class NewListing extends Component {
 	constructor(props){
@@ -22,9 +22,29 @@ class NewListing extends Component {
 		}
 	}
 
+	createListing(apartment) {
+	  return fetch(BASE + '/apartments', {
+
+	        body: JSON.stringify(apartment),  // <- we need to stringify the json for fetch
+	        headers: {  // <- We specify that we're sending JSON, and expect JSON back
+	            'Content-Type': 'application/json'
+	        },
+	        method: "POST"  // <- Here's our verb, so the correct endpoint is invoked on the server
+	    })
+	        .then((resp) => {
+	            let json = resp.json()
+	            return json
+	        })
+	        .then(resp2 => {
+	        console.log("CREATE SUCCESS!", resp2);
+	        this.setState({
+	            newApartmentSuccess: true
+	        })
+	    })
+	}
+
 updateForm(event){
 	let {form} = this.state
-	// console.log(event.target);
 	form[event.target.name] = event.target.value
 	this.setState({form: form})
 
@@ -32,7 +52,8 @@ updateForm(event){
 
 addApartment(apartment){
 	apartment.preventDefault()
-  this.props.makeListing(this.state.form)
+  this.createListing(this.state.form)
+	this.props.history.push('/apartments')
 }
 
 render(){
@@ -62,4 +83,4 @@ render(){
 }
 
 }
-export default NewListing
+export default withAuth(NewListing)

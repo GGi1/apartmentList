@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-before_action :authenticate_user, only: :show
+  before_action :authenticate_user, only: :show
 
   def index
     users = User.all
@@ -27,6 +27,6 @@ before_action :authenticate_user, only: :show
 
   private
   def user_params
-    params.require(:name).permit(:email, :name, :password, :password_confirmation)
+    params.require(:user).permit(:email, :name, :password, :password_confirmation)
   end
 end

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import '../css/Login.css'
-import AuthService from '../services/AuthService'
+import '../css/Login.css';
+import AuthService from '../services/AuthService';
+
 
 class Login extends Component {
   constructor(){
@@ -18,13 +19,16 @@ class Login extends Component {
 
   handleFormSubmit(e){
     e.preventDefault()
-    this.Auth.login(this.state.email, this.state.password)
+    this.Auth.login(this.state.email,this.state.password)
     .then(res =>{
-      this.props.history.replace('/')
+      this.props.history.replace('/apartments')
     })
     .catch(err =>{ alert(err) })
   }
 
+  goRegister(){
+    this.props.history.push('/register')
+  }
   render() {
     return (
       <div className="center">
@@ -55,6 +59,13 @@ class Login extends Component {
               type="submit"
             />
           </form>
+          <br/>
+          <input
+            className="card"
+            type ="submit"
+            value = "Sign Up"
+            onClick = {this.goRegister.bind(this)}
+          />
         </div>
       </div>
     );
