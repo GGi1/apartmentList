@@ -5,11 +5,11 @@ class Apartments extends Component {
   render() {
   return(
     <div>
-
-    {this.props.apartments.map((element, index) =>{
+      <Header />
+        {this.props.apartments.map((element, index) =>{
         return (
           <div>
-          <Header />
+
           { element.street1 } { element.street2 } { element.city }, { element.state }, { element.zip }, { element.country }
           </div>
         )

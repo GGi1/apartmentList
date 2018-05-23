@@ -1,5 +1,7 @@
 {
   "name": "apartmentbackend",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "react-bootstrap": "^0.32.1"
+  }
 }

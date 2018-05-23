@@ -5,10 +5,12 @@ import Apartments from './pages/Apartments'
 import NewListing from './pages/NewListing'
 import Login from './components/Login'
 import Registration from './components/Registration'
+import Navbar from './components/nav'
 
 
 
 const BASE = 'http://localhost:3000'
+
 
 class App extends Component {
   constructor(props){
@@ -18,6 +20,9 @@ class App extends Component {
       newApartmentSuccess: false,
     }
   }
+
+
+
 
 componentWillMount() {
   return fetch(BASE + '/apartments')
@@ -32,9 +37,13 @@ componentWillMount() {
     })
 }
 
+
+
+
   render() {
     return (
       <div className="App">
+      <Navbar/>
       <Router>
         <Switch>
           <Route exact path ="/apartments" render={(props) => <Apartments apartments={this.state.apartments}/>} />
