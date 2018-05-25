@@ -9,8 +9,10 @@ class Apartments extends Component {
         {this.props.apartments.map((element, index) =>{
         return (
           <div>
+          { console.log(element.avatar_base)}
+          <img src={ element.avatar_base }/>
 
-          { element.street1 } { element.street2 } { element.city }, { element.state }, { element.zip }, { element.country }
+          { element.street1 } { element.street2 } { element.city }, { element.state }, { element.zip }, { element.country },
           </div>
         )
         })
